@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Delivery Bebidas Cliente 1</title>
+<title>Delivery Bebidas 1</title>
 
 <!-- Firebase (compat) -->
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
@@ -102,6 +102,8 @@
 })();
 </script>
 
+
+
 <style>
 :root{
   --accent:#df4b10;
@@ -111,19 +113,19 @@
   --muted:#666;
 }
 
-  body { font-family: Arial, sans-serif; margin:0; background:#f7f7f7; color:#222; }
-  header {
-    background: linear-gradient(90deg, #f38a01, #00d170);
-    color: white; padding:8px 14px; box-shadow:0 3px 8px rgba(0,0,0,0.08);
-    position: sticky; top:0; z-index:1000; display:flex; gap:12px; align-items:center; justify-content:space-between;
-  }
- #searchContainer{ display:flex; gap:10px; align-items:center; width:100%; max-width:1200px; margin:0 auto; }
+body { font-family: Arial, sans-serif; margin:0; background:#f7f7f7; color:#222; }
+header {
+  background: linear-gradient(90deg, #f38a01, #00d170);
+  color: white; padding:8px 14px; box-shadow:0 3px 8px rgba(0,0,0,0.08);
+  position: sticky; top:0; z-index:1000; display:flex; gap:12px; align-items:center; justify-content:space-between;
+}
+#searchContainer{ display:flex; gap:10px; align-items:center; width:100%; max-width:1200px; margin:0 auto; }
 #searchInput{ flex:1; max-width:360px; padding:6px 8px; border-radius:6px; border:1px solid rgba(0,0,0,0.12); }
 #adminLink{ background:rgba(0,0,0,0.2); color:#fff; padding:6px 10px; border-radius:6px; text-decoration:none; font-weight:600; }
 #btnOpenCart{ background:rgba(255,255,255,0.12); color:#fff; padding:6px 10px; border-radius:6px; border:0; cursor:pointer; font-weight:700; }
 .page { padding:21px; max-width:1400px; margin:0 auto; }
 .layout-coluna{ display:flex; flex-direction:column; gap:14px; align-items:center; }
-.card{ background:var(--card); border-radius:10px; padding-top: 70px; width:100%; max-width:1370px; box-shadow:0 6px 18px rgba(0,0,0,0.04); position:relative; }
+.card{ background:var(--card); border-radius:10px; padding-top: 70px; width:103%; max-width:1370px; box-shadow:0 8px 18px rgba(0,0,0,0.04); position:relative; }
 .products{ display:flex; flex-wrap:wrap; gap:12px; justify-content:center; }
 .product{ width:180px; background:#fafafa; border:1px solid #eee; border-radius:8px; padding:8px; text-align:center; display:flex; flex-direction:column; gap:8px; }
 
@@ -132,13 +134,13 @@
 /* Ajuste de largura dos cards no celular */
 @media (max-width: 600px) {
   .product {
-    width: 90%;
+    width: 100%;
     margin: 10px auto;
     display: block;
   }
 
   .product img {
-    width: 90% !important;         /* Reduz para 90% para caber inteira */
+    width: 100% !important;         /* Reduz para 90% para caber inteira */
     height: auto !important;       /* Altura proporcional */
     max-height: 200px !important;  /* Limita altura máxima */
     object-fit: contain !important; /* MOSTRA INTEIRA */
@@ -157,105 +159,105 @@
   }
 }
 
-  .product img{ width:80%; height:105px; object-fit:cover; border-radius:6px; }
-  .product .meta{ flex:1; font-size:13px; color:var(--muted); }
-  .product .price{ font-weight:700; font-size:14px; }
-  .product .controls{ display:flex; gap:6px; align-items:center; justify-content:center; flex-direction:column; }
-  .product select, .product input[type="number"]{ width:100%; padding:6px; border-radius:6px; border:1px solid #ddd; box-sizing:border-box; }
-  .btn{ border:0; padding:8px 10px; border-radius:8px; cursor:pointer; font-weight:600; }
-  .btn-add{ background:var(--accent); color:#fff; width:100%; }
-  .cart-items{ display:flex; flex-direction:column; gap:10px; margin-top:8px; max-height:48vh; overflow:auto; padding-right:6px; }
-  .cart-item{ display:flex; gap:10px; align-items:center; background:#f8f8f8; padding:8px; border-radius:8px; }
-  .cart-item img{ width:64px; height:64px; object-fit: contain !important; /* ← CORREÇÃO AQUI */; border-radius:6px; }
-  .cart-item .info{ flex:1; font-size:14px; }
-  .cart-item .info small{ display:block; color:var(--muted); font-size:12px; }
-  .remove-btn{ background:var(--danger); color:rgb(255, 255, 255); border:0; padding:6px 8px; border-radius:6px; cursor:pointer; }
-  .cart-actions{ display:flex; gap:10px; justify-content:center; margin-top:12px; flex-wrap:wrap; }
-  .total{ text-align:right; font-weight:700; font-size:18px; margin-top:8px; }
-  .pix-area{ text-align:center; margin-top:12px; }
-  .small{ color:var(--muted); font-size:13px; }
-  .pix-copy-actions{ display:flex; gap:8px; margin-top:8px; justify-content:center; }
+.product img{ width:80%; height:105px; object-fit:cover; border-radius:6px; }
+.product .meta{ flex:1; font-size:13px; color:var(--muted); }
+.product .price{ font-weight:700; font-size:14px; }
+.product .controls{ display:flex; gap:6px; align-items:center; justify-content:center; flex-direction:column; }
+.product select, .product input[type="number"]{ width:100%; padding:6px; border-radius:6px; border:1px solid #ddd; box-sizing:border-box; }
+.btn{ border:0; padding:8px 10px; border-radius:8px; cursor:pointer; font-weight:600; }
+.btn-add{ background:var(--accent); color:#fff; width:100%; }
+.cart-items{ display:flex; flex-direction:column; gap:10px; margin-top:8px; max-height:48vh; overflow:auto; padding-right:6px; }
+.cart-item{ display:flex; gap:10px; align-items:center; background:#f8f8f8; padding:8px; border-radius:8px; }
+.cart-item img{ width:64px; height:64px; object-fit:contain !important; border-radius:6px; }
+.cart-item .info{ flex:1; font-size:14px; }
+.cart-item .info small{ display:block; color:var(--muted); font-size:12px; }
+.remove-btn{ background:var(--danger); color:rgb(255, 255, 255); border:0; padding:6px 8px; border-radius:6px; cursor:pointer; }
+.cart-actions{ display:flex; gap:10px; justify-content:center; margin-top:12px; flex-wrap:wrap; }
+.total{ text-align:right; font-weight:700; font-size:18px; margin-top:8px; }
+.pix-area{ text-align:center; margin-top:12px; }
+.small{ color:var(--muted); font-size:13px; }
+.pix-copy-actions{ display:flex; gap:8px; margin-top:8px; justify-content:center; }
 
-  .client-form { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
-  .client-form input, .client-form textarea { padding:8px; border-radius:6px; border:1px solid #ddd; width:100%; box-sizing:border-box; }
-  .client-form .col { flex:1; min-width:200px; }
+.client-form { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
+.client-form input, .client-form textarea { padding:8px; border-radius:6px; border:1px solid #ddd; width:100%; box-sizing:border-box; }
+.client-form .col { flex:1; min-width:200px; }
 
-  .catalog-block {
-    position:absolute;
-    inset:0;
-    background: rgba(255, 255, 255, 0.95);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:20px;
-    border-radius:10px;
-    flex-direction:column;
-    gap:8px;
-    text-align:center;
-    z-index:50;
-  }
-  .catalog-block .msg { font-weight:700; color:var(--danger); }
+.catalog-block {
+  position:absolute;
+  inset:0;
+  background: rgba(255, 255, 255, 0.95);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  border-radius:10px;
+  flex-direction:column;
+  gap:8px;
+  text-align:center;
+  z-index:50;
+}
+.catalog-block .msg { font-weight:700; color:var(--danger); }
 
-  /* modal */
-  .modal-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,0.35); display:flex; align-items:flex-start; justify-content:center; padding:40px 12px; z-index: 10000 !important; }
-  .modal{ background:#fff; border-radius:10px; width:100%; max-width:900px; padding:18px; box-shadow:0 10px 40px rgba(0,0,0,0.25); max-height:85vh; overflow:auto; z-index:10001 !important; }
-  .admin-row{ display:flex; align-items:center; gap:12px; justify-content:space-between; padding:8px 0; border-bottom:1px solid #f0f0f0; }
-  .admin-row .meta{ flex:1; }
-  .admin-controls{ display:flex; gap:8px; }
+/* modal */
+.modal-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,0.35); display:flex; align-items:flex-start; justify-content:center; padding:40px 12px; z-index: 10000 !important; }
+.modal{ background:#fff; border-radius:10px; width:100%; max-width:900px; padding:18px; box-shadow:0 10px 40px rgba(0,0,0,0.25); max-height:85vh; overflow:auto; z-index:10001 !important; }
+.admin-row{ display:flex; align-items:center; gap:12px; justify-content:space-between; padding:8px 0; border-bottom:1px solid #f0f0f0; }
+.admin-row .meta{ flex:1; }
+.admin-controls{ display:flex; gap:8px; }
 
-  @media (max-width:900px){
-    .product{ width:48%; }
-    header{ padding:10px; flex-direction:column; align-items:stretch; gap:8px; }
-    #searchContainer{ max-width:100%; }
-  }
+@media (max-width:900px){
+  .product{ width:48%; }
+  header{ padding:10px; flex-direction:column; align-items:stretch; gap:8px; }
+  #searchContainer{ max-width:100%; }
+}
 
-  .btn-add.flash {
-    animation: flashAnim 0.4s ease-out;
-  }
+.btn-add.flash {
+  animation: flashAnim 0.4s ease-out;
+}
 
-  @keyframes flashAnim {
-    0%   { transform: scale(1); }
-    30%  { transform: scale(1.15); background:#4caf50; color:#fff; }
-    100% { transform: scale(1); }
-  }
+@keyframes flashAnim {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(1.15); background:#4caf50; color:#fff; }
+  100% { transform: scale(1); }
+}
 
-  /* Aumentar largura dos cards no celular */
-  @media (max-width: 600px) {
-    .product {
-      width: 150% !important;
-    }
-
-    .product img {
-      height: 160px; /* opcional: imagem maior */
-    }
-  }
-  /*  botão carrinho css */
-  #btnOpenCart {
-    display: flex;
-    align-items: center;
-    gap: 6px;
+/* Aumentar largura dos cards no celular */
+@media (max-width: 600px) {
+  .product {
+    width: 150% !important;
   }
 
-  #btnOpenCart .icon-cart {
-    width: 20px;
-    height: 20px;
+  .product img {
+    height: 160px; /* opcional: imagem maior */
   }
+}
+/*  botão carrinho css */
+#btnOpenCart {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
 
-  /* CSS do badge (bolinha com número)*/
-  #btnOpenCart {
-    position: relative;
-  }
+#btnOpenCart .icon-cart {
+  width: 20px;
+  height: 20px;
+}
 
-  #cartCount {
-    background: red;
-    color: white;
-    font-size: 12px;
-    padding: 2px 6px;
-    border-radius: 50%;
-    position: absolute;
-    top: -5px;
-    right: -5px;
-  }
+/* CSS do badge (bolinha com número)*/
+#btnOpenCart {
+  position: relative;
+}
+
+#cartCount {
+  background: red;
+  color: white;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 50%;
+  position: absolute;
+  top: -5px;
+  right: -5px;
+}
 
 /* Preço antigo riscado no centro*/
   .old-price {
@@ -866,7 +868,6 @@ header {
 /* PAINEL SOBREPOSTO AO CABEÇALHO (ESTILO MODERNO) */
 /* ================================================ */
 
-/*----TROCA DO FUNDO DO CABEÇALHO--------------*/
 /* 1. CABEÇALHO COM z-index ALTO mas não máximo */
 header {
   z-index: 990 !important; /* Alto, mas não máximo */
@@ -874,9 +875,7 @@ header {
   top: 0 !important;
   left: 0 !important;
   right: 0 !important;
-  /*background: linear-gradient(90deg, #169ec0, #f5dd09, #f5dd09) !important;*/
-  background: linear-gradient(90deg, #0EE6C5, #F2DE05, #F2E605) !important;
-  /*background-image: url(imagens/fundo_bididas_cabelçalho.jpg) !important;*/
+  background: linear-gradient(90deg, #2E8399, #18F574, #f5dd09) !important;
   box-shadow: 0 4px 20px rgba(0,0,0,0.15) !important;
 }
 
@@ -1075,11 +1074,21 @@ div[style*="position: fixed"][style*="background: rgba"] {
          alt="Logo" 
          style="width: 100px; height: auto; border-radius: 8px;">
     
+    
     <!-- NOME DA EMPRESA -->
     <h1 style="margin: 0; font-size: 18px; font-weight: bold;">
-      Delive Bebidas 1
+      Delivery Bebidas 1
     </h1>
   </div>
+
+  <!-- ÁREA DO USUÁRIO LOGADO -->
+  <div id="userInfoArea" class="user-info-area" style="display: none;">
+    <span id="userEmail" class="user-email">Carregando...</span>
+    <button id="btnLogout" class="btn-logout">
+      <i class="fas fa-sign-out-alt"></i> Sair
+    </button>
+  </div>
+
   <!--------------------------------------------------------------------------------------------------->
   <!-- REDES SOCIAIS -->
     <div style="display: flex; gap: 15px; margin-top: 8px;">
@@ -1115,13 +1124,6 @@ div[style*="position: fixed"][style*="background: rgba"] {
     </div>
   </div>
   <!------------------------------------------------------------------------------------------------->
-  <!-- ÁREA DO USUÁRIO LOGADO -->
-  <div id="userInfoArea" class="user-info-area" style="display: none;">
-    <span id="userEmail" class="user-email">Carregando...</span>
-    <button id="btnLogout" class="btn-logout">
-      <i class="fas fa-sign-out-alt"></i> Sair
-    </button>
-  </div>
 
   <!-- CAMPO DE PESQUISA -->
   <div id="searchContainer" style="margin-top: 12px; position: relative; z-index: 10;">
@@ -1276,7 +1278,6 @@ div[style*="position: fixed"][style*="background: rgba"] {
 </main>
 
 <script>
-
 //FIREBASE VEBIDAS 1
 // =========================
 // FIREBASE (compat) CONFIG
@@ -1289,6 +1290,7 @@ div[style*="position: fixed"][style*="background: rgba"] {
   messagingSenderId: "448312047606",
   appId: "1:448312047606:web:7fd7d8bf907385ffc4f9d7"
 };
+ 
 
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();

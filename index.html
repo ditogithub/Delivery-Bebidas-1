@@ -125,7 +125,7 @@ header {
 #btnOpenCart{ background:rgba(255,255,255,0.12); color:#fff; padding:6px 10px; border-radius:6px; border:0; cursor:pointer; font-weight:700; }
 .page { padding:21px; max-width:1400px; margin:0 auto; }
 .layout-coluna{ display:flex; flex-direction:column; gap:14px; align-items:center; }
-.card{ background:var(--card); border-radius:10px; padding-top: 70px; width:103%; max-width:1370px; box-shadow:0 8px 18px rgba(0,0,0,0.04); position:relative; }
+.card{ background:var(--card); border-radius:10px; padding-top: 70px; width:103%; max-width:1400px; box-shadow:0 8px 18px rgba(0,0,0,0.04); position:relative; }
 .products{ display:flex; flex-wrap:wrap; gap:12px; justify-content:center; }
 .product{ width:180px; background:#fafafa; border:1px solid #eee; border-radius:8px; padding:8px; text-align:center; display:flex; flex-direction:column; gap:8px; }
 
@@ -3728,27 +3728,40 @@ async function enviarWhats() {
     
     msg += '*PRODUTOS:*\n';
     
-      // Calcular subtotal e total com taxa
-      const subtotalPedido = calcSubtotal();
-      const totalFinal = calcTotal();
-      
-      msg += `*RESUMO DE VALORES:*\n`;
-      msg += `Subtotal: ${formatBRL(subtotalPedido)}\n`;
-      
-      if (taxaEntrega > 0) {
-          msg += `Taxa de entrega: ${formatBRL(taxaEntrega)}\n`;
-      } else {
-          msg += `Taxa de entrega: 🎉 Grátis!\n`;
-      }
-      
-      msg += `*TOTAL FINAL: ${formatBRL(totalFinal)}*\n\n`;
-      
-      // msg += `*TOTAL: ${formatBRL(totalPedido)}*\n\n`; // <-- REMOVA ESTA LINHA
-      
-      msg += `_💖Agradecemos pela sua preferência_\n`;
-      msg += `_🛒seu pedido já está sendo providenciado_\n`;
-      msg += `*Chave PIX:* ${rawPixPhone || 'Não configurada'}\n`;
-      msg += `*Data:* ${new Date().toLocaleDateString('pt-BR')}`;
+// LISTAR TODOS OS PRODUTOS COM PREÇOS E QUANTIDADES
+cart.forEach((item, index) => {
+    const totalItem = Number(item.unitPrice || 0) * Number(item.qty || 0);
+    
+    msg += `${index + 1}. ${item.name}\n`;
+    msg += `   • Quantidade: ${item.qty} ${item.mode}\n`;
+    msg += `   • Preço unitário: ${formatBRL(item.unitPrice)}\n`;
+    msg += `   • Subtotal: ${formatBRL(totalItem)}\n\n`;
+});
+
+    // Calcular subtotal e total com taxa
+    const subtotalPedido = calcSubtotal();
+    const totalFinal = calcTotal();
+
+    msg += '*RESUMO DE VALORES:*\n';
+    msg += `Subtotal: ${formatBRL(subtotalPedido)}\n`;
+
+    // Verificar se retirar no local está marcado
+    const retirarLocalCheckbox = document.getElementById('retirarLocal');
+    const retirarLocal = retirarLocalCheckbox ? retirarLocalCheckbox.checked : false;
+
+    if (taxaEntrega > 0 && !retirarLocal) {
+        msg += `Taxa de entrega: ${formatBRL(taxaEntrega)}\n`;
+    } else if (retirarLocal) {
+        msg += `Taxa de entrega: 🎉 Grátis (Retirada no local)\n`;
+    } else {
+        msg += `Taxa de entrega: 🎉 Grátis!\n`;
+    }
+
+    msg += `*TOTAL FINAL: ${formatBRL(totalFinal)}*\n\n`;
+    msg += `_💖Agradecemos pela sua preferência_\n`;
+    msg += `_🛒seu pedido já está sendo providenciado_\n`;
+    msg += `*Chave PIX:* ${rawPixPhone || 'Não configurada'}\n`;
+    msg += `*Data:* ${new Date().toLocaleDateString('pt-BR')} ${new Date().toLocaleTimeString('pt-BR')}`;
 
 
     // ✅ 5º PASSO: CRIAR URL DO WHATSAPP

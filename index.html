@@ -14,7 +14,7 @@
 <!-- NO BEBIDAS - após Firebase -->
 <script>
 // ============================================
-// PROTEÇÃO BEBIDAS - CLIENTE D
+// PROTEÇÃO BEBIDAS - CLIENTE D - VERSÃO CORRIGIDA
 // Chave: bebida_cart
 // ============================================
 (function() {
@@ -26,21 +26,28 @@
     
     console.log(`🛡️ ${SISTEMA} - Usando: ${CHAVE_CART}`);
     
-    // 1. MIGRAÇÃO: cart → bebida_cart
-    const cartAntigo = localStorage.getItem('cart');
-    if (cartAntigo && !localStorage.getItem(CHAVE_CART)) {
-        console.log('🔄 Migrando cart → bebida_cart');
-        localStorage.setItem(CHAVE_CART, cartAntigo);
-        
-        setTimeout(() => {
-            localStorage.removeItem('cart');
-            console.log('🗑️ cart removido');
-        }, 1000);
+    // 1. VERIFICAR SE JÁ EXISTE bebida_cart
+    let cartSalvo = localStorage.getItem(CHAVE_CART);
+    
+    // 2. SE NÃO EXISTIR bebida_cart, VERIFICAR cart antigo
+    if (!cartSalvo) {
+        const cartAntigo = localStorage.getItem('cart');
+        if (cartAntigo) {
+            console.log('🔄 Migrando cart → bebida_cart');
+            localStorage.setItem(CHAVE_CART, cartAntigo);
+            cartSalvo = cartAntigo;
+            
+            // Remover cart antigo após migração
+            setTimeout(() => {
+                localStorage.removeItem('cart');
+                console.log('🗑️ cart antigo removido');
+            }, 1000);
+        }
     }
     
-    // 2. REMOVER chaves de hortifruti
+    // 3. REMOVER chaves de hortifruti (sempre)
     CHAVES_BLOQUEAR.forEach(chave => {
-        if (chave !== 'cart') {
+        if (chave !== CHAVE_CART && chave !== 'cart') {
             if (localStorage.getItem(chave)) {
                 localStorage.removeItem(chave);
                 console.log(`🗑️ Removido: ${chave}`);
@@ -48,19 +55,22 @@
         }
     });
     
-    // 3. INICIALIZAR cart com bebida_cart
-    const cartData = localStorage.getItem(CHAVE_CART);
-    window.cart = cartData ? JSON.parse(cartData) : [];
+    // 4. INICIALIZAR window.cart CORRETAMENTE
+    try {
+        window.cart = cartSalvo ? JSON.parse(cartSalvo) : [];
+        console.log(`✅ Carrinho inicializado: ${window.cart.length} item(s)`);
+    } catch (error) {
+        console.error('❌ Erro ao parsear carrinho:', error);
+        window.cart = [];
+        localStorage.setItem(CHAVE_CART, '[]');
+    }
     
-    console.log(`✅ ${SISTEMA} configurado!`);
-    console.log(`🛒 Carrinho: ${window.cart.length} item(s)`);
-    
-    // 4. PROTEÇÃO ATIVA
+    // 5. PROTEÇÃO ATIVA - MODIFICADA PARA SALVAR SEMPRE EM bebida_cart
     const originalGetItem = localStorage.getItem.bind(localStorage);
     const originalSetItem = localStorage.setItem.bind(localStorage);
     
     localStorage.getItem = function(key) {
-        if (CHAVES_BLOQUEAR.includes(key)) {
+        if (CHAVES_BLOQUEAR.includes(key) && key !== 'cart') {
             console.warn(`🚫 ${SISTEMA}: Bloqueado acesso a ${key}`);
             return null;
         }
@@ -74,20 +84,39 @@
     };
     
     localStorage.setItem = function(key, value) {
-        if (CHAVES_BLOQUEAR.includes(key)) {
+        if (CHAVES_BLOQUEAR.includes(key) && key !== 'cart') {
             console.error(`🚫 ${SISTEMA}: Bloqueado criação de ${key}`);
             return;
         }
         
         if (key === 'cart') {
-            console.log(`🔀 ${SISTEMA}: cart → ${CHAVE_CART}`);
+            console.log(`🔀 ${SISTEMA}: cart → ${CHAVE_CART}`, value);
             return originalSetItem(CHAVE_CART, value);
         }
         
         return originalSetItem(key, value);
     };
     
-    // 5. VERIFICAÇÃO FINAL
+    // 6. FUNÇÃO saveCart GLOBAL - GARANTINDO QUE SALVA NA CHAVE CORRETA
+    window.saveCart = function() {
+        try {
+            const dados = JSON.stringify(window.cart || []);
+            localStorage.setItem(CHAVE_CART, dados); // Salva diretamente em bebida_cart
+            console.log(`💾 Carrinho salvo em ${CHAVE_CART}:`, window.cart.length, 'itens');
+            
+            // Atualizar contador
+            if (typeof window.updateCartCount === 'function') {
+                window.updateCartCount();
+            }
+            
+            return true;
+        } catch (error) {
+            console.error('❌ Erro ao salvar carrinho:', error);
+            return false;
+        }
+    };
+    
+    // 7. VERIFICAÇÃO FINAL
     setTimeout(() => {
         console.log('📋 Verificação final:');
         
@@ -98,10 +127,15 @@
         
         const chavesCart = chaves.filter(k => k.includes('cart'));
         console.log('Chaves cart presentes:', chavesCart);
+        
+        const cartFinal = localStorage.getItem(CHAVE_CART);
+        console.log('Carrinho salvo:', cartFinal ? JSON.parse(cartFinal).length + ' itens' : 'vazio');
+        
+        // DEBUG: Mostrar conteúdo real
+        console.log('Conteúdo do carrinho:', window.cart);
     }, 2000);
 })();
 </script>
-
 
 
 <style>
@@ -1296,6 +1330,48 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
+//------------------------------------------------------------------------------------------------
+
+// =========================
+// DEBUG - VERIFICAR PROBLEMA DO CARRINHO
+// =========================
+
+function debugCarrinho() {
+    console.log('🔍 DEBUG CARRINHO:');
+    console.log('1. localStorage keys:', Object.keys(localStorage));
+    console.log('2. bebida_cart:', localStorage.getItem('bebida_cart'));
+    console.log('3. cart:', localStorage.getItem('cart'));
+    console.log('4. window.cart:', window.cart);
+    console.log('5. CHAVE_CART:', window.CHAVE_CART);
+    console.log('6. Tamanho do carrinho:', window.cart?.length || 0);
+    
+    // Verificar se há itens no carrinho que não estão sendo salvos
+    if (window.cart && window.cart.length > 0) {
+        const saved = localStorage.getItem('bebida_cart');
+        if (!saved || saved === '[]') {
+            console.error('❌ PROBLEMA DETECTADO: Carrinho na memória mas não salvo!');
+            alert('⚠️ Problema detectado: carrinho não está sendo salvo. Corrigindo automaticamente...');
+            
+            // Corrigir automaticamente
+            localStorage.setItem('bebida_cart', JSON.stringify(window.cart));
+            console.log('✅ Carrinho corrigido manualmente');
+        }
+    }
+}
+
+// Executar debug após 3 segundos da página carregar
+setTimeout(debugCarrinho, 3000);
+
+// Também executar quando o carrinho for atualizado
+const originalAddToCart = window.addToCart;
+if (originalAddToCart) {
+    window.addToCart = function(...args) {
+        const result = originalAddToCart.apply(this, args);
+        setTimeout(debugCarrinho, 500);
+        return result;
+    };
+}
+
 //-------------------------------------------------------------------------------------------------
 
 // =========================
@@ -2014,51 +2090,51 @@ function renderizarProdutosDoCache() {
     }
     
     if (addBtn && cartEnabled) {
-      // Adicionar event listener para adicionar ao carrinho
-      addBtn.addEventListener('click', async function() {
-        if (addBtn.disabled) return;
-        
-        const selectedMode = sel ? sel.value : (priceUnit != null ? 'unit' : 'kg');
-        const qty = Number(qtyInput ? qtyInput.value : 1) || 1;
-        const unitPrice = (selectedMode === 'kg') ? priceKg : priceUnit;
-        
-        if (unitPrice == null) {
-          alert('Preço inválido.');
-          return;
-        }
-        
-        try {
-          const snapData = (await db.collection('produtos').doc(p._id).get()).data();
-          const stock = snapData.stock ?? 0;
-          
-          if (qty > stock) {
-            alert(`Só temos ${stock} unidades disponíveis.`);
-            return;
-          }
-          
-          addToCart({
-            id: p._id,
-            name: p.name || 'Produto',
-            img: p.img,
-            mode: selectedMode,
-            qty,
-            unitPrice: Number(unitPrice)
-          });
-          
-          saveCart();
-          
-          // Efeito visual de confirmação
-          addBtn.classList.add('flash');
-          setTimeout(() => addBtn.classList.remove('flash'), 400);
-          
-          // Atualizar apenas este card
-          atualizarCardDoProduto(p._id);
-          
-        } catch (error) {
-          alert('Erro ao verificar estoque: ' + error.message);
-        }
-      });
+  // Adicionar event listener para adicionar ao carrinho
+  addBtn.addEventListener('click', async function() {
+    if (addBtn.disabled) return;
+    
+    const selectedMode = sel ? sel.value : (priceUnit != null ? 'unit' : 'kg');
+    const qty = Number(qtyInput ? qtyInput.value : 1) || 1;
+    const unitPrice = (selectedMode === 'kg') ? priceKg : priceUnit;
+    
+    if (unitPrice == null) {
+      alert('Preço inválido.');
+      return;
     }
+    
+    try {
+      const snapData = (await db.collection('produtos').doc(p._id).get()).data();
+      const stock = snapData.stock ?? 0;
+      
+      if (qty > stock) {
+        alert(`Só temos ${stock} unidades disponíveis.`);
+        return;
+      }
+      
+      addToCart({
+        id: p._id,
+        name: p.name || 'Produto',
+        img: p.img,
+        mode: selectedMode,
+        qty,
+        unitPrice: Number(unitPrice)
+      });
+      
+      saveCart();
+      
+      // Efeito visual de confirmação
+      addBtn.classList.add('flash');
+      setTimeout(() => addBtn.classList.remove('flash'), 400);
+      
+      // Atualizar apenas este card
+      atualizarCardDoProduto(p._id);
+      
+    } catch (error) {
+      alert('Erro ao verificar estoque: ' + error.message);
+    }
+  });
+}
     
     if (remBtn) {
       // Adicionar event listener para remover do carrinho
@@ -2096,26 +2172,60 @@ function renderizarProdutosDoCache() {
   console.log(`✅ ${produtosFiltrados} produtos renderizados`);
 }
 
-// Função para atualizar apenas um card (mais eficiente)
+// Função para atualizar apenas um card (mais eficiente) - VERSÃO 100% CORRIGIDA
+// Função para atualizar apenas um card (mais eficiente) - VERSÃO CORRIGIDA 100%
 function atualizarCardDoProduto(productId) {
+  console.log(`🔄 atualizarCardDoProduto chamado para: ${productId}`);
+  
   const productElement = document.querySelector(`.product[data-id="${productId}"]`);
-  if (!productElement) return;
+  if (!productElement) {
+    console.log(`❌ Elemento do produto não encontrado: ${productId}`);
+    return;
+  }
   
   // Encontrar quantidade atual no carrinho
   let cartQty = 0;
   const found = cart.find(item => item.id === productId);
-  if (found) cartQty = found.qty;
+  if (found) {
+    cartQty = found.qty;
+    console.log(`📦 Quantidade encontrada no carrinho: ${cartQty}`);
+  }
   
-  // Atualizar apenas a parte necessária
+  // 🔥🔥🔥 PARTE 1: ATUALIZAR O BOTÃO "ADICIONE" - ESSENCIAL!
+  const addBtn = document.getElementById(`add_${productId}`);
+  if (addBtn) {
+    console.log(`🎯 Botão encontrado: add_${productId}`);
+    
+    if (cartQty > 0) {
+      // Se já tem no carrinho, mostrar quantidade com badge
+      addBtn.innerHTML = `
+        <span style="font-size: 18px;">🛒</span>
+        <span style="background: white; color: #df4b10; font-size: 12px; font-weight: bold; padding: 2px 6px; border-radius: 10px; min-width: 18px;">
+          ${cartQty}
+        </span>
+      `;
+      console.log(`✅ Botão atualizado para mostrar: ${cartQty}`);
+    } else {
+      // Se não tem, mostrar "Adicione"
+      addBtn.innerHTML = `
+        <span style="font-size: 18px;">🛒</span>
+        <span>Adicione</span>
+      `;
+      console.log(`✅ Botão resetado para "Adicione"`);
+    }
+  } else {
+    console.log(`❌ Botão add_${productId} NÃO encontrado no DOM!`);
+  }
+  
+  // PARTE 2: Atualizar status do carrinho (texto abaixo do botão)
   const cartStatus = productElement.querySelector('.cart-status');
-  
   if (cartStatus) {
     cartStatus.innerHTML = cartQty > 0 ? 
       `Já no carrinho: <strong>${cartQty}</strong>` : '';
   }
   
-  // Adicionar/remover botão de remover
-  const removeBtn = productElement.querySelector('.btn-remove');
+  // PARTE 3: Adicionar/remover botão de remover
+  const removeBtn = document.getElementById(`rem_${productId}`);
   
   if (cartQty > 0 && !removeBtn) {
     const controlsDiv = productElement.querySelector('.controls');
@@ -2125,7 +2235,6 @@ function atualizarCardDoProduto(productId) {
       newRemoveBtn.id = `rem_${productId}`;
       newRemoveBtn.textContent = '🗑️';
       
-      // Adicionar event listener ao novo botão
       newRemoveBtn.addEventListener('click', function() {
         const item = cart.find(c => c.id === productId);
         if (!item) return;
@@ -2146,8 +2255,8 @@ function atualizarCardDoProduto(productId) {
         }
         
         saveCart();
-        renderizarProdutosDoCache(); // Recarregar produtos para atualizar todos
-        renderCart(); // Atualizar carrinho visível
+        renderizarProdutosDoCache();
+        renderCart();
       });
       
       controlsDiv.appendChild(newRemoveBtn);
@@ -2156,10 +2265,9 @@ function atualizarCardDoProduto(productId) {
     removeBtn.remove();
   }
   
-  // Atualizar contador do carrinho
   updateCartCount();
+  console.log(`✅ atualizarCardDoProduto concluído para: ${productId}`);
 }
-
 // =========================
 // SUBSTITUIR A FUNÇÃO ORIGINAL PELA OTIMIZADA
 // =========================
@@ -2648,26 +2756,53 @@ let rawPixPhone = '';
 let sellerPhone = '';
 
 // =========================
-// FUNÇÕES UTILITÁRIAS
+// FUNÇÕES UTILITÁRIAS - VERSÃO CORRIGIDA
 // =========================
-function saveCart() {
-  try {
-    localStorage.setItem('horti2_cart', JSON.stringify(cart));
-    console.log('💾 Carrinho salvo em horti2_cart:', cart.length, 'itens');
-    
-    // Atualizar contador imediato
-    updateCartCount();
-    
-    // Atualizar PIX quando salvar carrinho
-    setTimeout(() => {
-      if (typeof atualizarPixDisplay === 'function') {
-        atualizarPixDisplay();
-      }
-    }, 100);
-    
-  } catch (error) {
-    console.error('❌ Erro ao salvar carrinho:', error);
-  }
+
+// Esta função será sobrescrita pelo sistema de proteção, mas mantemos como fallback
+if (typeof window.saveCart !== 'function') {
+    window.saveCart = function() {
+        try {
+            // Usar a chave correta definida pelo sistema de proteção
+            const chaveCart = window.CHAVE_CART || 'bebida_cart';
+            
+            localStorage.setItem(chaveCart, JSON.stringify(window.cart || []));
+            
+            // Para compatibilidade, também salvar em 'cart' se for diferente
+            if (chaveCart !== 'cart') {
+                localStorage.setItem('cart', JSON.stringify(window.cart || []));
+            }
+            
+            console.log(`💾 Carrinho salvo em ${chaveCart}:`, window.cart.length, 'itens');
+            
+            // Atualizar contador
+            if (typeof window.updateCartCount === 'function') {
+                window.updateCartCount();
+            }
+            
+            // Atualizar PIX quando salvar carrinho
+            setTimeout(() => {
+                if (typeof window.atualizarPixDisplay === 'function') {
+                    window.atualizarPixDisplay();
+                }
+            }, 100);
+            
+            return true;
+            
+        } catch (error) {
+            console.error('❌ Erro ao salvar carrinho:', error);
+            
+            // Tentativa alternativa
+            try {
+                localStorage.setItem('bebida_cart', JSON.stringify(window.cart || []));
+                console.log('🔄 Carrinho salvo via fallback');
+            } catch (e) {
+                console.error('❌ Fallback também falhou:', e);
+            }
+            
+            return false;
+        }
+    };
 }
 
 //----------------------------------------------------------------------------------------------------------------
@@ -3100,41 +3235,68 @@ async function atualizarStatusCarrinhoUnificado() {
 // FUNÇÕES DO CARRINHO
 // =========================
   async function addToCart(item) {
-    if (!cartEnabled) {
-      alert("O carrinho está desativado no momento.");
+  if (!cartEnabled) {
+    alert("O carrinho está desativado no momento.");
+    return;
+  }
+  
+  const snapData = (await db.collection('produtos').doc(item.id).get()).data();
+  const stock = snapData.stock ?? 0;
+
+  const idx = cart.findIndex(c => c.id === item.id && c.mode === item.mode);
+
+  if (idx >= 0) {
+    const novaQtd = cart[idx].qty + item.qty;
+
+    if (novaQtd > stock) {
+      alert(`Estoque insuficiente! Você já tem ${cart[idx].qty} no carrinho e só existem ${stock} unidades.`);
       return;
     }
-    
-    const snapData = (await db.collection('produtos').doc(item.id).get()).data();
-    const stock = snapData.stock ?? 0;
 
-    const idx = cart.findIndex(c => c.id === item.id && c.mode === item.mode);
-
-    if (idx >= 0) {
-      const novaQtd = cart[idx].qty + item.qty;
-
-      if (novaQtd > stock) {
-        alert(`Estoque insuficiente! Você já tem ${cart[idx].qty} no carrinho e só existem ${stock} unidades.`);
-        return;
-      }
-
-      cart[idx].qty = novaQtd;
-    } else {
-      if (item.qty > stock) {
-        alert(`Só temos ${stock} unidades disponíveis em estoque.`);
-        return;
-      }
-      cart.push(item);
+    cart[idx].qty = novaQtd;
+  } else {
+    if (item.qty > stock) {
+      alert(`Só temos ${stock} unidades disponíveis em estoque.`);
+      return;
     }
-
-    saveCart();
-    renderCart();
-    updateCartCount();
-    
-    // ADICIONE APENAS ESTA LINHA NO FINAL ↓↓↓
-    atualizarPixDisplay(); // Atualiza o código PIX automaticamente
+    cart.push(item);
   }
 
+  // 🔥🔥🔥 PRIMEIRO: Salvar o carrinho
+  saveCart();
+  
+  // 🔥🔥🔥 SEGUNDO: Atualizar contador global
+  updateCartCount();
+  
+  // 🔥🔥🔥 TERCEIRO: Atualizar o card ESPECÍFICO (COM ATRASO PARA GARANTIR)
+  setTimeout(() => {
+    if (typeof atualizarCardDoProduto === 'function') {
+      console.log(`🎯 Chamando atualizarCardDoProduto para: ${item.id}`);
+      atualizarCardDoProduto(item.id);
+    }
+  }, 50); // Pequeno atraso para garantir que o DOM está pronto
+  
+  // 🔥🔥🔥 QUARTO: Atualizar o carrinho visível (se estiver aberto)
+  if (typeof renderCart === 'function') {
+    renderCart();
+  }
+  
+  // 🔥🔥🔥 QUINTO: Atualizar PIX
+  if (typeof atualizarPixDisplay === 'function') {
+    setTimeout(() => {
+      atualizarPixDisplay();
+    }, 100);
+  }
+  
+  // 🔥🔥🔥 SEXTO: Feedback visual no botão
+  setTimeout(() => {
+    const addBtn = document.getElementById(`add_${item.id}`);
+    if (addBtn) {
+      addBtn.classList.add('flash');
+      setTimeout(() => addBtn.classList.remove('flash'), 400);
+    }
+  }, 100);
+}
 function updateCartCount() {
   try {
     const count = cart.reduce((total, item) => total + (item.qty || 0), 0);
@@ -3286,8 +3448,52 @@ function renderCart() {
   atualizarPixDisplay();
 }
 
+//----------------------------------------------------------------------------------------------------------
+
 // =========================
-// FUNÇÃO LIMPAR CARRINHO COM RECUPERAÇÃO (MODIFICADA)
+// FUNÇÃO PARA ATUALIZAR TODOS OS BOTÕES DO CARRINHO
+// =========================
+function atualizarTodosOsBotoesCarrinho() {
+  console.log('🔄 Atualizando TODOS os botões do carrinho...');
+  
+  // 1. Resetar TODOS os botões "Adicione"
+  document.querySelectorAll('.btn-add').forEach(btn => {
+    btn.innerHTML = `
+      <span style="font-size: 18px;">🛒</span>
+      <span>Adicione</span>
+    `;
+  });
+  
+  // 2. Remover TODOS os botões "🗑️ Remover"
+  document.querySelectorAll('.btn-remove').forEach(btn => {
+    btn.remove();
+  });
+  
+  // 3. Limpar TODOS os textos "Já no carrinho"
+  document.querySelectorAll('.cart-status').forEach(span => {
+    span.innerHTML = '';
+  });
+  
+  // 4. Para cada item que ainda existe no carrinho (se houver), atualizar
+  cart.forEach(item => {
+    const btn = document.getElementById(`add_${item.id}`);
+    if (btn && item.qty > 0) {
+      btn.innerHTML = `
+        <span style="font-size: 18px;">🛒</span>
+        <span style="background: white; color: #df4b10; font-size: 12px; font-weight: bold; padding: 2px 6px; border-radius: 10px; min-width: 18px;">
+          ${item.qty}
+        </span>
+      `;
+    }
+  });
+  
+  console.log(`✅ ${document.querySelectorAll('.btn-add').length} botões atualizados`);
+}
+
+//----------------------------------------------------------------------------------------------------------
+
+// =========================
+// FUNÇÃO LIMPAR CARRINHO COMPLETAMENTE (VERSÃO CORRIGIDA)
 // =========================
 function limparCarrinho() { 
   if (cart.length === 0) {
@@ -3295,7 +3501,7 @@ function limparCarrinho() {
     return;
   }
   
-  if (confirm('Deseja limpar o carrinho? Os itens poderão ser recuperados em até 5 minutos.')) { 
+  if (confirm('Deseja limpar TODO o carrinho?\n\nTodos os itens serão removidos.')) { 
     // Salvar o carrinho atual para possível recuperação
     lastRemovedCart = [...cart]; // Cria uma cópia do carrinho
     removedCartTimestamp = Date.now(); // Marca o tempo da remoção
@@ -3304,6 +3510,47 @@ function limparCarrinho() {
     cart = []; 
     saveCart(); 
     renderCart(); 
+    
+    // 🔥🔥🔥 PARTE CRÍTICA: ATUALIZAR TODOS OS BOTÕES DO CATÁLOGO
+    console.log('🔄 Atualizando botões do catálogo após limpar carrinho...');
+    
+    // Método 1: Usar função de atualização se existir
+    if (typeof atualizarTodosOsBotoesCarrinho === 'function') {
+      atualizarTodosOsBotoesCarrinho();
+    }
+    // Método 2: Atualizar via função existente
+    else if (typeof atualizarCardDoProduto === 'function') {
+      // Para cada produto que estava no carrinho antigo
+      lastRemovedCart.forEach(item => {
+        setTimeout(() => {
+          atualizarCardDoProduto(item.id);
+        }, 100);
+      });
+    }
+    // Método 3: Forçar recarregamento completo
+    else if (typeof renderizarProdutosDoCache === 'function') {
+      setTimeout(() => {
+        renderizarProdutosDoCache();
+      }, 300);
+    }
+    // Método 4: Atualizar manualmente todos os botões
+    else {
+      setTimeout(() => {
+        document.querySelectorAll('.btn-add').forEach(btn => {
+          btn.innerHTML = `
+            <span style="font-size: 18px;">🛒</span>
+            <span>Adicione</span>
+          `;
+        });
+        
+        // Remover todos os botões de remover
+        document.querySelectorAll('.btn-remove').forEach(btn => {
+          btn.remove();
+        });
+        
+        console.log('✅ Todos os botões resetados manualmente');
+      }, 200);
+    }
     
     // Mostrar botão de recuperação
     showRecoverButton();
@@ -3316,6 +3563,8 @@ function limparCarrinho() {
         hideRecoverButton();
       }
     }, CART_RECOVERY_TIMEOUT);
+    
+    alert('✅ Carrinho limpo com sucesso!\n\nOs itens podem ser recuperados em até 5 minutos.');
   } 
 }
 
@@ -3397,6 +3646,9 @@ function dismissRecoverButton() {
 // =========================
 // RECUPERAR ÚLTIMO CARRINHO (NOVO)
 // =========================
+// =========================
+// RECUPERAR ÚLTIMO CARRINHO (NOVO) - VERSÃO CORRIGIDA
+// =========================
 function recoverLastCart() {
   if (!lastRemovedCart || lastRemovedCart.length === 0) {
     alert('Nenhum carrinho disponível para recuperação.');
@@ -3418,8 +3670,19 @@ function recoverLastCart() {
   // Salvar no localStorage
   saveCart();
   
-  // Atualizar a exibição
+  // Atualizar a exibição do carrinho
   renderCart();
+  
+  // 🔥🔥🔥 ATUALIZAR TODOS OS BOTÕES DO CATÁLOGO
+  console.log('🔄 Atualizando catálogo após recuperar carrinho...');
+  
+  if (typeof atualizarTodosOsBotoesCarrinho === 'function') {
+    atualizarTodosOsBotoesCarrinho();
+  } else if (typeof renderizarProdutosDoCache === 'function') {
+    setTimeout(() => {
+      renderizarProdutosDoCache();
+    }, 300);
+  }
   
   // Esconder o botão de recuperação
   lastRemovedCart = null;
@@ -6855,13 +7118,13 @@ document.getElementById('btnUseLocation')?.addEventListener('click', () => {
       await inicializarPix();
     
     // 2. Carregar carrinho do localStorage APÓS autenticação
-    const savedCart = localStorage.getItem('cart');
+    const savedCart = localStorage.getItem('cart'); // Isso será redirecionado para bebida_cart
     if (savedCart) {
       try {
         cart = JSON.parse(savedCart);
-        console.log(' Carrinho carregado do localStorage:', cart.length, 'itens');
+        console.log('🛒 Carrinho carregado do localStorage:', cart.length, 'itens');
       } catch (e) {
-        console.error(' Erro ao carregar carrinho:', e);
+        console.error('❌ Erro ao carregar carrinho:', e);
         cart = [];
       }
     }

@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>DELIVERY BEBIDAS 1</title>
 
+
+
 <!-- FIREBASE (compat) -->
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-auth-compat.js"></script>
@@ -526,7 +528,7 @@ header {
   }
   .product {
   width: 230px; /* Mudei de 180px para 225px */
-  background: linear-gradient(90deg, #2E8399, #0fac50, #e0cb09) !important;
+  background: linear-gradient(90deg, #FFFF00, #FFFF00) !important;
   border-radius: 10px;
   padding: 20px; /* Aumentei de 8px para 12px */
   text-align: center;
@@ -560,12 +562,12 @@ header {
 
 .current-price strong {
   font-size: 20px;
-  color: #fcf804;
+  color: #09914d;
 }
 
 .old-price {
-  font-size: 14px;
-  color: #05f5e1;
+  font-size: 12px;
+  color: #5f6665;
   text-decoration: line-through;
 }
 
@@ -579,13 +581,15 @@ header {
 }
 
 .name {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
+  /* OPÇÃO 4: Forte e Marcante (energéticos, destilados) */
+  font-family: 'Oswald', 'Arial Narrow', sans-serif;
 }
 
 .desc {
   font-size: 13px;
-  color: #f8f7f7;
+  color: #464643;
 }
 
 /* carrinho desativado*/
@@ -1133,7 +1137,7 @@ header {
   top: 0 !important;
   left: 0 !important;
   right: 0 !important;
-  background: linear-gradient(90deg, #2E8399, #18F574, #f5dd09) !important;
+  background: linear-gradient(90deg, #e6e600, #e6e600, #FFFF00) !important;
   box-shadow: 0 4px 20px rgba(0,0,0,0.15) !important;
 }
 
@@ -1498,7 +1502,14 @@ div[style*="CONFIGURAR TAXAS POR BAIRRO"] input {
 }
 
 /*----------------------------------------------------------------------------------------------*/
-
+/*----CSS PARA JUSTIFICAR O TEXTO DA DESCRIÇÃO DO PRODUTO------------*/
+.desc {
+  font-size: 12px;
+  color: #464643;
+  text-align: center;  /* Adicione esta linha */
+  text-justify: inter-word; /* Opcional: melhora a distribuição das palavras */
+  line-height: 1.4; /* Opcional: melhora a legibilidade */
+}
 </style>
 
 
@@ -1517,7 +1528,7 @@ div[style*="CONFIGURAR TAXAS POR BAIRRO"] input {
     
     
     <!-- NOME DA EMPRESA -->
-    <h1 style="margin: 0; font-size: 18px; font-weight: bold;">
+    <h1 style="margin: 0; font-size: 18px; font-weight: bold; color: #222;">
       DELIVERY BEBIDAS 1
     </h1>
   </div>
@@ -1564,6 +1575,7 @@ div[style*="CONFIGURAR TAXAS POR BAIRRO"] input {
       </a>
     </div>
   </div>
+  
   <!------------------------------------------------------------------------------------------------->
 
   <!-- CAMPO DE PESQUISA -->

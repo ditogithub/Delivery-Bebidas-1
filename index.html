@@ -383,7 +383,7 @@ header {
 #btnOpenCart{ background:rgba(255,255,255,0.12); color:#fff; padding:6px 10px; border-radius:6px; border:0; cursor:pointer; font-weight:700; }
 .page { padding:21px; max-width:1400px; margin:0 auto; }
 .layout-coluna{ display:flex; flex-direction:column; gap:14px; align-items:center; }
-.card{ background:var(--card); border-radius:10px; padding-top: 10px; width:103%; max-width:1400px; box-shadow:0 8px 18px rgba(0,0,0,0.04); position:relative; }
+.card{ background:var(--card); border-radius:10px; padding-top: 75px; width:103%; max-width:1400px; box-shadow:0 8px 18px rgba(0,0,0,0.04); position:relative; }
 .products{ display:flex; flex-wrap:wrap; gap:12px; justify-content:center; }
 .product{ width:180px; background:#fafafa; border:1px solid #eee; border-radius:8px; padding:8px; text-align:center; display:flex; flex-direction:column; gap:8px; }
 
@@ -1821,147 +1821,133 @@ div[style*="CONFIGURAR TAXAS POR BAIRRO"] input {
 #catalogCard h4 {
   position: relative;
   z-index: 10;
-  margin-top: 10px !important; /* Adicionar margem no topo */
+  margin-top: 25px !important; /* Adicionar margem no topo */
   padding-top: 5px;
   background-color: var(--card); /* Mesma cor do fundo do card */
   border-radius: 10px 10px 0 0;
 }
-
-/*----------------------------------------------------------------------------------------------*/
-
-/*----------------------------------------------------------------------------------------------*/
-</style>      <!--FINAL STYLE-->
+</style>
 
 
 </head>
 <body>
-<!----------------------- CABEÇALHO COMPACTO ----------------------------------------------->
-<header style="padding: 3px 0; text-align: center; position: relative;">
+<!-----------------------CABELHALHO CORRIGIDO----------------------------------------------->
+<header style="padding: 5px; text-align: center; position: relative;">
 
-  <!-- LOGO + NOME + REDES SOCIAIS + USER AREA (tudo em uma linha) -->
-  <div style="display: flex; align-items: center; justify-content: space-between; padding: 0 10px; margin-bottom: 8px;">
+  <!-- LOGO + NOME -->
+  <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
     
-    <!-- LOGO + NOME (lado esquerdo) -->
-    <div style="display: flex; align-items: center; gap: 8px; flex: 1;">
-      <img src="imagens/logo.png" 
-           alt="Logo" 
-           style="width: 60px; height: auto; border-radius: 6px;">
-      
-      <h1 style="margin: 0; font-size: 16px; font-weight: bold; color: #222;">
-        DELIVERY BEBIDAS 1
-      </h1>
-    </div>
-
-    <!-- ESPAÇO CENTRAL VAZIO (para afastar as redes sociais) -->
-    <div style="flex: 0.5;"></div>
-
-    <!-- ÁREA CENTRAL: REDES SOCIAIS + BOTÕES DE USUÁRIO -->
-    <div style="display: flex; align-items: center; gap: 25px; flex: 1; justify-content: flex-end;">
-      
-      <!-- REDES SOCIAIS (afastadas do nome) -->
-      <div style="display: flex; gap: 15px; align-items: center;">
-        <a href="https://www.instagram.com/ta_na_mao_delivery/" 
-           target="_blank"
-           title="Instagram"
-           style="color: #e23326; text-decoration: none;">
-          <i class="fab fa-instagram" style="font-size: 18px;"></i>
-        </a>
-        
-        <a href="https://www.facebook.com/DeliveryTNM" 
-           target="_blank"
-           title="Facebook"
-           style="color: #1877f2; text-decoration: none;">
-          <i class="fab fa-facebook" style="font-size: 18px;"></i>
-        </a>
-      </div>
-
-      <!-- ÁREA DO USUÁRIO (versão compacta) -->
-      <div id="userInfoArea" class="user-info-area" style="display: none;">
-        <span id="userEmail" class="user-email" style="font-size: 11px;"></span>
-        <button id="btnLogout" class="btn-logout" style="padding: 3px 6px; font-size: 11px;">
-          <i class="fas fa-sign-out-alt"></i>
-        </button>
-      </div>
-
-      <!-- BOTÃO ENTRAR (alternativo) -->
-      <button id="btnUserLogin" style="
-          background: rgba(255,255,255,0.12);
-          color: #0c0c0c;
-          padding: 3px 8px;
-          border-radius: 4px;
-          border: 0;
-          cursor: pointer;
-          font-weight: 600;
-          display: flex;
-          align-items: center;
-          gap: 4px;
-          font-size: 11px;
-          white-space: nowrap;
-      ">
-          <i class="fas fa-user" style="font-size: 11px;"></i>
-          <span id="userLoginText">Entrar</span>
-      </button>
-    </div>
+    <!-- LOGO -->
+    <img src="imagens/logo.png" 
+         alt="Logo" 
+         style="width: 90px; height: auto; border-radius: 8px;">
+    
+    
+    <!-- NOME DA EMPRESA -->
+    <h1 style="margin: 0; font-size: 18px; font-weight: bold; color: #222;">
+      DELIVERY BEBIDAS 1
+    </h1>
   </div>
 
-  <!-- CAMPO DE PESQUISA + CARRINHO (linha única) -->
-  <div id="searchContainer" style="display: flex; align-items: center; gap: 8px; padding: 0 10px;">
-    
-    <input id="searchInput" placeholder="🔍 Pesquisar..." 
-           style="flex: 1; padding: 6px 10px; font-size: 13px;" />
-    
-    <!-- BOTÃO ADMIN -->
+  <!-- ÁREA DO USUÁRIO LOGADO -->
+  <div id="userInfoArea" class="user-info-area" style="display: none;">
+    <span id="userEmail" class="user-email">Carregando...</span>
+    <button id="btnLogout" class="btn-logout">
+      <i class="fas fa-sign-out-alt"></i> Sair
+    </button>
+  </div>
+
+  <!--------------------------------------------------------------------------------------------------->
+  <!-- REDES SOCIAIS -->
+<div style="display: flex; gap: 15px; margin-top: 8px;">
+  <!-- Instagram -->
+  <a href="https://www.instagram.com/ta_na_mao_delivery/" 
+     target="_blank"
+     style="
+       color: #e23326;
+       text-decoration: none;
+       display: flex;
+       align-items: center;
+       gap: 5px;
+       font-weight: bold;
+     ">
+    <i class="fab fa-instagram" style="font-size: 24px;"></i>
+  </a>
+  
+  <!-- Facebook -->
+  <a href="https://www.facebook.com/DeliveryTNM" 
+     target="_blank"
+     style="
+       color: #1877f2;
+       text-decoration: none;
+       display: flex;
+       align-items: center;
+       gap: 5px;
+       font-weight: bold;
+     ">
+    <i class="fab fa-facebook" style="font-size: 24px;"></i>
+  </a>
+</div>
+  <!------------------------------------------------------------------------------------------------->
+   <!-- Adicione este código no cabeçalho, depois do botão do carrinho -->
+<button id="btnUserLogin" style="
+    background: rgba(255,255,255,0.12);
+    color: #0c0c0c;
+    padding: 4px 8px; /* Reduzido de 6px 10px */
+    border-radius: 6px;
+    border: 0;
+    cursor: pointer;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 4px; /* Reduzido de 6px */
+    font-size: 12px; /* Adicionado para texto menor */
+">
+    <i class="fas fa-user" style="font-size: 12px;"></i> <!-- Reduzido de 14px -->
+    <span id="userLoginText">Entrar</span>
+</button>
+
+  <!------------------------------------------------------------------------------------------------->
+
+  <!-- CAMPO DE PESQUISA -->
+  <div id="searchContainer" style="margin-top: 12px; position: relative; z-index: 10;">
+    <input id="searchInput" placeholder="🔍 Pesquisar produtos..." />
     <button id="adminLink" style="
       background: transparent;
       border: none;
       cursor: pointer;
       padding: 0;
+      margin: 0;
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 34px;
-      height: 34px;
-      border-radius: 8px;
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      transition: all 0.3s ease;
     ">
       <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" 
            alt="Admin"
-           style="width: 24px; height: 24px;">
+           style="
+               width: 30px;
+               height: 30px;
+               filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
+               transition: all 0.3s ease;
+           "
+           onmouseover="this.style.transform='scale(1.2) rotate(5deg)';"
+           onmouseout="this.style.transform='scale(1) rotate(0deg)';">
     </button>
-    
-    <!-- BOTÃO CARRINHO -->
-    <button id="btnOpenCart" style="
-      background: transparent;
-      border: none;
-      cursor: pointer;
-      position: relative;
-      padding: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 34px;
-      height: 34px;
-    ">
+    <button id="btnOpenCart">
       <img 
         src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" 
         alt="Carrinho" 
-        style="width: 24px; height: 24px;"
+        class="icon-cart"
       >
-      <span id="cartCount" style="
-        position: absolute;
-        top: -3px;
-        right: -3px;
-        background: #e74c3c;
-        color: white;
-        border-radius: 50%;
-        width: 16px;
-        height: 16px;
-        font-size: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      ">0</span>
+      <span id="cartCount">0</span>
     </button>
   </div>
+  
+ 
 </header>
 <!----------------------------------------------------------------------------------------------------->
 

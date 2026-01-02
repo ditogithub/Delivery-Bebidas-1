@@ -3,9 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>DELIVERY BEBIDAS 1</title>
-
-
+<title>HORTIFRUTI CLIENTE 1</title>
 
 <!-- FIREBASE (compat) -->
 <script src="https://www.gstatic.com/firebasejs/10.13.0/firebase-app-compat.js"></script>
@@ -362,6 +360,8 @@
 })();
 </script>
 
+
+
 <style>
 :root{
   --accent:#df4b10;
@@ -381,12 +381,11 @@ header {
 #searchInput{ flex:1; max-width:360px; padding:6px 8px; border-radius:6px; border:1px solid rgba(0,0,0,0.12); }
 #adminLink{ background:rgba(0,0,0,0.2); color:#fff; padding:6px 10px; border-radius:6px; text-decoration:none; font-weight:600; }
 #btnOpenCart{ background:rgba(255,255,255,0.12); color:#fff; padding:6px 10px; border-radius:6px; border:0; cursor:pointer; font-weight:700; }
-.page { padding:21px; max-width:1400px; margin:0 auto; }
+.page { padding:19px; max-width:1400px; margin:0 auto; }
 .layout-coluna{ display:flex; flex-direction:column; gap:14px; align-items:center; }
-.card{ background:var(--card); border-radius:10px; padding-top: 75px; width:103%; max-width:1400px; box-shadow:0 8px 18px rgba(0,0,0,0.04); position:relative; }
+.card{ background:var(--card); border-radius:10px; padding-top: 67px; width:103%; max-width:1390px; box-shadow:0 6px 18px rgba(0,0,0,0.04); position:relative; }
 .products{ display:flex; flex-wrap:wrap; gap:12px; justify-content:center; }
 .product{ width:180px; background:#fafafa; border:1px solid #eee; border-radius:8px; padding:8px; text-align:center; display:flex; flex-direction:column; gap:8px; }
-
 
 /*------------------------------------------------------------------------------------*/
 
@@ -440,7 +439,6 @@ header {
 .client-form { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
 .client-form input, .client-form textarea { padding:8px; border-radius:6px; border:1px solid #ddd; width:100%; box-sizing:border-box; }
 .client-form .col { flex:1; min-width:200px; }
-
 
 .catalog-block {
   position:absolute;
@@ -527,7 +525,7 @@ header {
     margin-left: 6px;   /* um espacinho do preço atual */
   }
   .product {
-  width: 230px; /* Mudei de 180px para 225px */
+  width: 240px; /* Mudei de 180px para 225px */
   background: linear-gradient(90deg, #FFFF00, #FFFF00) !important;
   border-radius: 10px;
   padding: 20px; /* Aumentei de 8px para 12px */
@@ -562,12 +560,12 @@ header {
 
 .current-price strong {
   font-size: 20px;
-  color: #09914d;
+  color: #0ec47e;
 }
 
 .old-price {
-  font-size: 12px;
-  color: #5f6665;
+  font-size: 14px;
+  color: #f57105;
   text-decoration: line-through;
 }
 
@@ -581,15 +579,13 @@ header {
 }
 
 .name {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
-  /* OPÇÃO 4: Forte e Marcante (energéticos, destilados) */
-  font-family: 'Oswald', 'Arial Narrow', sans-serif;
 }
 
 .desc {
   font-size: 13px;
-  color: #464643;
+  color: #494848;
 }
 
 /* carrinho desativado*/
@@ -912,7 +908,7 @@ header {
 
 /* AJUSTE DO BODY - ESSENCIAL! */
 body {
-  padding-top: 45px !important;
+  padding-top: 120px !important;
   margin: 0 !important;
   min-height: 100vh !important;
 }
@@ -1502,265 +1498,12 @@ div[style*="CONFIGURAR TAXAS POR BAIRRO"] input {
 }
 
 /*----------------------------------------------------------------------------------------------*/
-/*----CSS PARA JUSTIFICAR O TEXTO DA DESCRIÇÃO DO PRODUTO------------*/
-.desc {
-  font-size: 12px;
-  color: #464643;
-  text-align: center;  /* Adicione esta linha */
-  text-justify: inter-word; /* Opcional: melhora a distribuição das palavras */
-  line-height: 1.4; /* Opcional: melhora a legibilidade */
-}
-
-/*---------------------------------------------------------------------------------*/
 /* Estilos para área do usuário */
 .user-info-area {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 8px 12px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    margin-left: auto;
-}
-
-.user-email {
-    font-size: 13px;
-    color: white;
-    max-width: 150px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.btn-logout {
-    background: #e74c3c;
-    color: white;
-    border: none;
-    padding: 4px 8px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.btn-logout:hover {
-    background: #c0392b;
-}
-
-/* Modal de login - COM z-index ALTO */
-.login-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.85);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 999999 !important; /* Z-INDEX MÁXIMO */
-}
-
-.login-modal-content {
-    background: white;
-    padding: 25px;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 400px;
-    text-align: center;
-    position: relative;
-    z-index: 999999 !important;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-    border: 3px solid #2ecc71;
-}
-
-.login-tabs {
-    display: flex;
-    margin-bottom: 20px;
-    border-bottom: 1px solid #ddd;
-}
-
-.login-tab {
-    flex: 1;
-    padding: 10px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-weight: 600;
-    color: #666;
-    transition: all 0.3s;
-}
-
-.login-tab.active {
-    color: #2ecc71;
-    border-bottom: 3px solid #2ecc71;
-}
-
-.login-form input {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
-    border: 2px solid #ddd;
-    border-radius: 6px;
-    font-size: 16px;
-    box-sizing: border-box;
-    transition: border 0.3s;
-}
-
-.login-form input:focus {
-    border-color: #2ecc71;
-    outline: none;
-}
-
-.login-form button {
-    width: 100%;
-    padding: 12px;
-    background: #2ecc71;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 16px;
-    transition: background 0.3s;
-}
-
-.login-form button:hover {
-    background: #27ae60;
-}
-
-/* Botão fechar do modal */
-.login-modal .close-btn {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    background: #e74c3c;
-    color: white;
-    border: none;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-weight: bold;
-    z-index: 999999 !important;
-}
-
-.login-modal .close-btn:hover {
-    background: #c0392b;
-}
-
-/*-----------------------------------------------------------------------------------------*/
-/* ========================= */
-/* BOTÕES DE AUTENTICAÇÃO SOCIAL */
-/* ========================= */
-.btn-google {
-    background: #DB4437 !important;
-    color: white !important;
-    border: none !important;
-    padding: 12px !important;
-    border-radius: 6px !important;
-    cursor: pointer !important;
-    font-weight: bold !important;
-    width: 100% !important;
-    margin-top: 10px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 10px !important;
-    transition: all 0.3s ease !important;
-}
-
-.btn-google:hover {
-    background: #C33D2E !important;
-    transform: translateY(-2px) !important;
-    box-shadow: 0 4px 12px rgba(219, 68, 55, 0.3) !important;
-}
-
-/* ========================= */
-/* MENSAGENS DE RECUPERAÇÃO */
-/* ========================= */
-.recovery-success {
-    background: #d4edda !important;
-    color: #155724 !important;
-    border: 1px solid #c3e6cb !important;
-    padding: 10px !important;
-    border-radius: 6px !important;
-    margin: 10px 0 !important;
-}
-
-.recovery-error {
-    background: #f8d7da !important;
-    color: #721c24 !important;
-    border: 1px solid #f5c6cb !important;
-    padding: 10px !important;
-    border-radius: 6px !important;
-    margin: 10px 0 !important;
-}
-
-/* ========================= */
-/* AVATAR DO USUÁRIO */
-/* ========================= */
-.user-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: #3498db;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    margin-right: 10px;
-}
-
-.user-avatar img {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-/*------------------------------------------------------------------------------------------*/
-/* ========================= */
-/* AVATAR DO USUÁRIO NO BOTÃO */
-/* ========================= */
-.btn-user-login img {
-    width: 24px !important;
-    height: 24px !important;
-    border-radius: 50% !important;
-    border: 2px solid #3498db !important;
-    object-fit: cover !important;
-    margin-right: 8px !important;
-}
-
-.btn-user-login.user-logged-in {
-    background: linear-gradient(135deg, #f8f9fa, #e9ecef) !important;
-    border-color: #3498db !important;
-    color: #2c3e50 !important;
-}
-
-.btn-user-login.user-not-logged {
-    background: linear-gradient(135deg, #3498db, #2980b9) !important;
-    color: white !important;
-    border: none !important;
-}
-
-.btn-user-login.user-logged-in:hover {
-    background: linear-gradient(135deg, #e9ecef, #dee2e6) !important;
-    transform: translateY(-2px) !important;
-    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2) !important;
-}
-
-/* ========================= */
-/* ÁREA DO USUÁRIO NO HEADER - VERSÃO SUPER COMPACTA */
-/* ========================= */
-.user-info-area {
-    display: flex;
-    align-items: center;
     gap: 8px;
-    background: rgb(252, 235, 2);
+    background: rgb(255, 238, 0);
     padding: 4px 8px;
     border-radius: 4px;
     box-shadow: 0 1px 4px rgba(0,0,0,0.05);
@@ -1803,7 +1546,7 @@ div[style*="CONFIGURAR TAXAS POR BAIRRO"] input {
 
 .btn-logout {
     background: #e74c3c;
-    color: white;
+    color: rgb(255, 255, 255);
     border: none;
     padding: 3px 6px;
     border-radius: 2px;
@@ -1816,17 +1559,306 @@ div[style*="CONFIGURAR TAXAS POR BAIRRO"] input {
 .btn-logout:hover {
     background: #c0392b;
 }
-/*------------------------------------------------------------------------------------------*/
-/* Garantir que o título "Produtos" fique visível */
-#catalogCard h4 {
-  position: relative;
-  z-index: 10;
-  margin-top: 25px !important; /* Adicionar margem no topo */
-  padding-top: 5px;
-  background-color: var(--card); /* Mesma cor do fundo do card */
-  border-radius: 10px 10px 0 0;
+
+/* Modal de login */
+.login-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999999 !important;
 }
-</style>
+
+.login-modal-content {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    position: relative;
+    z-index: 999999 !important;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    border: 3px solid #2ecc71;
+}
+
+.login-modal .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: #e74c3c;
+    color: white;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-weight: bold;
+    z-index: 999999 !important;
+}
+
+.login-modal .close-btn:hover {
+    background: #c0392b;
+}
+
+/* ADICIONE ESTES ESTILOS AO SEU CSS EXISTENTE */
+
+/* Melhorias para o Modal de Login */
+.login-modal {
+    background: rgba(0,0,0,0.92) !important;
+    backdrop-filter: blur(10px) !important;
+}
+
+.login-modal-content {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
+    border: none !important;
+    border-radius: 20px !important;
+    padding: 35px 30px !important;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.1) !important;
+    animation: slideInUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+
+@keyframes slideInUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Tabs de Login/Cadastro */
+.login-tabs {
+    display: flex;
+    background: #f1f3f5;
+    border-radius: 12px;
+    padding: 4px;
+    margin-bottom: 25px;
+    width: 100%;
+}
+
+.login-tab {
+    flex: 1;
+    padding: 14px 0;
+    border: none;
+    background: transparent;
+    font-size: 15px;
+    font-weight: 600;
+    color: #6c757d;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 10px;
+}
+
+.login-tab.active {
+    background: white;
+    color: #2c3e50;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* Campos do formulário */
+.login-form input {
+    width: 100%;
+    padding: 16px 18px;
+    margin-bottom: 16px;
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    font-size: 15px;
+    background: white;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.login-form input:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+/* Botões */
+.login-form button {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.login-form button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(52, 152, 219, 0.3);
+}
+
+/* Botão Google */
+.login-form button[style*="background: #DB4437"] {
+    background: linear-gradient(135deg, #DB4437 0%, #C23321 100%) !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-size: 15px;
+}
+
+.login-form button[style*="background: #DB4437"]:hover {
+    box-shadow: 0 8px 20px rgba(219, 68, 55, 0.3) !important;
+}
+
+/* Divisor */
+.login-form div[style*="border-bottom"] {
+    margin: 25px 0;
+    position: relative;
+}
+
+.login-form div[style*="border-bottom"] span {
+    background: white !important;
+    padding: 0 20px !important;
+    color: #6c757d !important;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Links */
+.login-form a {
+    color: #3498db !important;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.login-form a:hover {
+    color: #2980b9 !important;
+    text-decoration: underline;
+}
+
+/* Títulos */
+.login-modal-content h3 {
+    color: #2c3e50 !important;
+    margin-bottom: 30px !important;
+    font-size: 24px !important;
+    text-align: center !important;
+    font-weight: 700 !important;
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+    .login-modal-content {
+        padding: 25px 20px !important;
+        width: 95% !important;
+    }
+    
+    .login-tab {
+        padding: 12px 0;
+        font-size: 14px;
+    }
+    
+    .login-form input {
+        padding: 14px 16px;
+        font-size: 14px;
+    }
+    
+    .login-form button {
+        padding: 14px;
+        font-size: 15px;
+    }
+}
+
+/* Loading animation */
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.6; }
+    100% { opacity: 1; }
+}
+
+.loading {
+    animation: pulse 1.5s infinite;
+}
+
+/* Badge de notificação (opcional) */
+.user-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #e74c3c;
+    color: white;
+    font-size: 11px;
+    padding: 3px 7px;
+    border-radius: 50%;
+    font-weight: bold;
+    border: 2px solid white;
+}
+
+/* Tooltip para informações do usuário */
+.user-tooltip {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    padding: 20px;
+    min-width: 250px;
+    z-index: 1000;
+    margin-top: 10px;
+    display: none;
+    border: 1px solid #e9ecef;
+}
+
+.user-info-area:hover .user-tooltip {
+    display: block;
+}
+
+/* Animação para feedback visual */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.shake {
+    animation: shake 0.5s ease-in-out;
+}
+
+/* Botão de fechar melhorado */
+.login-modal .close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background: #f8f9fa;
+    color: #6c757d;
+    border: none;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 1001;
+}
+
+.login-modal .close-btn:hover {
+    background: #e74c3c;
+    color: white;
+    transform: rotate(90deg);
+}
+/*-----------------------------------------------------------------------------------------------*/
+
+</style> <!--final style-->
 
 
 </head>
@@ -1838,9 +1870,9 @@ div[style*="CONFIGURAR TAXAS POR BAIRRO"] input {
   <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
     
     <!-- LOGO -->
-    <img src="imagens/logo.png" 
+    <img src="imagens/compras_verduras.png" 
          alt="Logo" 
-         style="width: 90px; height: auto; border-radius: 8px;">
+         style="width: 30px; height: auto; border-radius: 8px;">
     
     
     <!-- NOME DA EMPRESA -->
@@ -1957,7 +1989,7 @@ div[style*="CONFIGURAR TAXAS POR BAIRRO"] input {
 
   <!-- Produtos / catálogo -->
   <div class="card" id="catalogCard">
-    <h4 style="text-align:center;margin:0 0 8px 0;">Produtos</h4> 
+    <h2 style="text-align:center;margin:0 0 8px 0;">Produtos</h2>
     <div id="productsList" class="products"></div>
 
     <!-- bloco mostrado quando vendas estão bloqueadas -->
@@ -2108,7 +2140,7 @@ div[style*="CONFIGURAR TAXAS POR BAIRRO"] input {
 
 <script>
 
- //FIREBASE BEBIDAS 1
+//FIREBASE BEBIDAS 1
 // =========================
 // FIREBASE (compat) CONFIG
 // =========================
@@ -2125,29 +2157,24 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-//------------------------------------------------------------------------------------------------
-
+//-----------------------------------------------------------------------------------------------
 // =========================
 // CONFIGURAÇÃO DO FIREBASE AUTH COM GOOGLE
 // =========================
-  const googleProvider = new firebase.auth.GoogleAuthProvider();
-  googleProvider.addScope('profile');
-  googleProvider.addScope('email');
-  googleProvider.setCustomParameters({
-    prompt: 'select_account'
-  });
+const googleProvider = new firebase.auth.GoogleAuthProvider();
+googleProvider.addScope('profile');
+googleProvider.addScope('email');
+googleProvider.setCustomParameters({
+  prompt: 'select_account'
+});
 
-//------------------------------------------------------------------------------------------------
 // =========================
 // VERIFICAÇÃO DE AUTENTICAÇÃO AO CARREGAR A PÁGINA
 // =========================
-// Verificar autenticação ao carregar a página
 auth.onAuthStateChanged(async (user) => {
     if (user) {
-        // Usuário está logado no Firebase
         console.log('👤 Usuário Firebase autenticado:', user.email);
         
-        // Carregar dados completos do Firestore
         try {
             const userDoc = await db.collection('users').doc(user.uid).get();
             
@@ -2165,23 +2192,17 @@ auth.onAuthStateChanged(async (user) => {
                     createdAt: userData.createdAt || new Date().toISOString()
                 };
                 
-                // Salvar no localStorage
-                localStorage.setItem('delivery_bebidas_user', JSON.stringify(window.currentUser));
-                
-                // Atualizar UI
+                localStorage.setItem('hortifruti_user', JSON.stringify(window.currentUser));
                 updateUserUI();
-                
                 console.log('✅ Usuário carregado do Firestore:', window.currentUser.name);
             }
         } catch (error) {
             console.error('Erro ao carregar dados do usuário:', error);
         }
     } else {
-        // Usuário não está logado no Firebase
         console.log('👤 Nenhum usuário Firebase autenticado');
         
-        // Verificar se tem dados locais
-        const savedUser = localStorage.getItem('delivery_bebidas_user');
+        const savedUser = localStorage.getItem('hortifruti_user');
         if (savedUser) {
             try {
                 window.currentUser = JSON.parse(savedUser);
@@ -2192,7 +2213,6 @@ auth.onAuthStateChanged(async (user) => {
         }
     }
 });
-
 //------------------------------------------------------------------------------------------------
 
 // =========================
@@ -2203,8 +2223,8 @@ function debugCarrinho() {
     console.log('🔍 DEBUG CARRINHO:');
     console.log('1. localStorage keys:', Object.keys(localStorage));
     
-    // ✅ USAR A MESMA CHAVE DO SISTEMA DE PROTEÇÃO
-    const chaveCorreta = 'bebida_cart'; // Mudar de 'bebida1_cart' para 'bebida_cart'
+    // ✅ CORREÇÃO: Usar window.CHAVE_CART que foi definida globalmente
+    const chaveCorreta = window.CHAVE_CART || 'bebida1_cart';
     
     console.log('2. Carrinho na chave correta (' + chaveCorreta + '):', localStorage.getItem(chaveCorreta));
     console.log('3. window.cart:', window.cart);
@@ -3938,7 +3958,7 @@ if (typeof window.saveCart !== 'function') {
     window.saveCart = function() {
         try {
             // Usar a chave correta definida pelo sistema de proteção
-            const chaveCart = window.CHAVE_CART || 'bebida_cart'; // Mudar de 'bebida1_cart'
+            const chaveCart = window.CHAVE_CART || 'bebida1_cart';
             
             localStorage.setItem(chaveCart, JSON.stringify(window.cart || []));
             
@@ -3968,7 +3988,7 @@ if (typeof window.saveCart !== 'function') {
             
             // Tentativa alternativa
             try {
-                localStorage.setItem('bebida_cart', JSON.stringify(window.cart || [])); // Mudar de 'bebida1_cart'
+                localStorage.setItem('bebida1_cart', JSON.stringify(window.cart || []));
                 console.log('🔄 Carrinho salvo via fallback');
             } catch (e) {
                 console.error('❌ Fallback também falhou:', e);
@@ -5096,36 +5116,7 @@ async function verificarPermissaoLocalizacao() {
     };
   }
 }
-
-//----------------------------------------------------------------------------------------------
-//função para atualizar a UI do usuário
-
-function updateUserUI() {
-  const btnUserLogin = document.getElementById('btnUserLogin');
-  const loginStatusText = document.getElementById('loginStatusText');
-  
-  if (loginStatusText) {
-    if (window.currentUser) {
-      loginStatusText.innerHTML = `✅ Logado como: ${window.currentUser.email}`;
-      loginStatusText.style.color = '#2ecc71';
-    } else {
-      loginStatusText.innerHTML = '🔒 Faça login para enviar pedidos';
-      loginStatusText.style.color = '#f39c12';
-    }
-  }
-  
-  if (btnUserLogin) {
-    if (window.currentUser) {
-      btnUserLogin.innerHTML = `<i class="fas fa-user-check"></i> ${window.currentUser.email || 'Logado'}`;
-      btnUserLogin.style.background = '#2ecc71';
-    } else {
-      btnUserLogin.innerHTML = '<i class="fas fa-sign-in-alt"></i> Entrar';
-      btnUserLogin.style.background = '';
-    }
-  }
-}
-
-//----------------------------------------------------------------------------------------------
+// =========================
 // =========================
 // FUNÇÃO ENVIAR WHATSAPP - CORRIGIDA PARA ABRIR APP NATIVO
 // =========================
@@ -11082,7 +11073,6 @@ window.configurarBackupAutomatico = async function() {
 };
 
 //----------------------------------------------------------------------------------------------------
-
 // 6. RESETAR SISTEMA - VERSÃO COM CARRINHO REALMENTE LIMPO
 window.resetarSistema = function() {
     if (confirm('⚠️ ⚠️ ⚠️  RESETAR SISTEMA COMPLETO?\n\nIsso irá:\n• Limpar TODO o cache local\n• Remover carrinho atual\n• Recarregar TODOS os dados\n• Manter configurações do Firebase\n\n🚨 Esta ação não pode ser desfeita!\n\nContinuar?')) {
@@ -11174,7 +11164,7 @@ window.resetarSistema = function() {
                     saveCart();
                 } else {
                     // Fallback: salvar diretamente
-                    localStorage.setItem('horti1_cart', '[]');
+                    localStorage.setItem('bebida1_cart', '[]');
                     localStorage.setItem('cart', '[]');
                 }
                 
@@ -11219,7 +11209,7 @@ window.resetarSistema = function() {
                     salvarCarrinhoLimpo();
                     
                     // Depois limpa outras coisas
-                    const chavesParaManter = ['horti1_cart', 'cart']; // Mantém essas
+                    const chavesParaManter = ['bebida1_cart', 'cart']; // Mantém essas
                     const todasChaves = [];
                     
                     // Coletar todas as chaves
@@ -11327,6 +11317,8 @@ window.resetarSistema = function() {
         console.log('✅ Reset do sistema iniciado...');
     }
 };
+
+//--------------------------------------------------------------------------------------------------------------------------------------
 
 // =========================
 // SISTEMA DE GESTÃO DE SENHAS (MODO TÉCNICO) - VERSÃO CORRIGIDA
@@ -11496,6 +11488,7 @@ window.verSenhasSistema = async function() {
         alert('❌ Erro: ' + error.message);
     }
 };
+//-----------------------------------------------------------------------------------------------------
   // 2. TROCAR SENHA DO ADMIN (já existe, mantida para referência)
   window.trocarSenhaAdmin = async function() {
       console.log(' Iniciando troca de senha admin...');
@@ -12007,8 +12000,7 @@ console.log('3. Função configurarBotaoAtualizarBairros:', typeof configurarBot
 console.log('4. Função configurarSelectBairro:', typeof configurarSelectBairro);
 console.log('5. Select encontrado:', document.getElementById('clientBairro') ? 'SIM' : 'NÃO');
 
-//-----------------------------------------------------------------------------------------------------
-
+//----------------------------------------------------------------------------------------------------
 // =========================
 // SISTEMA DE AUTENTICAÇÃO DO USUÁRIO (CLIENTE)
 // =========================
@@ -13186,7 +13178,8 @@ async function registerWithFirebase(name, email, password, phone) {
     }
 }
 
-//-----------------------------------------------------------------------------------------------------
+
+//----------------------------------------------------------------------------------------------------
 </script>
 </body>
 </html>

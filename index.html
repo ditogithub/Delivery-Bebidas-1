@@ -1754,57 +1754,67 @@ div[style*="CONFIGURAR TAXAS POR BAIRRO"] input {
 }
 
 /* ========================= */
-/* ÁREA DO USUÁRIO NO HEADER */
+/* ÁREA DO USUÁRIO NO HEADER - VERSÃO SUPER COMPACTA */
 /* ========================= */
 .user-info-area {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    gap: 8px;
     background: rgb(252, 235, 2);
-    padding: 10px 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    margin-left: 15px;
-    border-left: 3px solid #3498db;
+    padding: 4px 8px;
+    border-radius: 4px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+    border-left: 2px solid #3498db;
+    max-width: 200px;
 }
 
 .user-info-area img {
-    width: 32px;
-    height: 32px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
-    border: 2px solid #3498db;
+    border: 1px solid #3498db;
     object-fit: cover;
+    flex-shrink: 0;
+}
+
+.user-info-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex: 1;
 }
 
 .user-name {
-    font-weight: bold;
+    font-weight: 600;
     color: #2c3e50;
-    font-size: 14px;
+    font-size: 11px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .user-email {
     color: #7f8c8d;
-    font-size: 12px;
+    font-size: 9px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .btn-logout {
     background: #e74c3c;
-    color: rgb(255, 255, 255);
+    color: white;
     border: none;
-    padding: 6px 12px;
-    border-radius: 4px;
+    padding: 3px 6px;
+    border-radius: 2px;
     cursor: pointer;
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    transition: all 0.3s ease;
+    font-size: 9px;
+    flex-shrink: 0;
+    transition: background 0.2s;
 }
 
 .btn-logout:hover {
     background: #c0392b;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
 }
 /*------------------------------------------------------------------------------------------*/
 /* Garantir que o título "Produtos" fique visível */
@@ -1849,39 +1859,54 @@ div[style*="CONFIGURAR TAXAS POR BAIRRO"] input {
 
   <!--------------------------------------------------------------------------------------------------->
   <!-- REDES SOCIAIS -->
-    <div style="display: flex; gap: 15px; margin-top: 8px;">
-      <!-- Instagram -->
-      <a href="https://www.instagram.com/ta_na_mao_delivery/" 
-         target="_blank"
-         style="
-           color: #e23326;
-           text-decoration: none;
-           display: flex;
-           align-items: center;
-           gap: 5px;
-           font-weight: bold;
-         ">
-        <i class="fab fa-instagram" style="font-size: 20px;"></i>
-        <span style="font-size: 14px;">Instagram</span>
-      </a>
-      
-      <!-- Facebook -->
-      <a href="https://www.facebook.com/DeliveryTNM" 
-         target="_blank"
-         style="
-           color: #1877f2;
-           text-decoration: none;
-           display: flex;
-           align-items: center;
-           gap: 5px;
-           font-weight: bold;
-         ">
-        <i class="fab fa-facebook" style="font-size: 20px;"></i>
-        <span style="font-size: 14px;">Facebook</span>
-      </a>
-    </div>
-  </div>
+<div style="display: flex; gap: 15px; margin-top: 8px;">
+  <!-- Instagram -->
+  <a href="https://www.instagram.com/ta_na_mao_delivery/" 
+     target="_blank"
+     style="
+       color: #e23326;
+       text-decoration: none;
+       display: flex;
+       align-items: center;
+       gap: 5px;
+       font-weight: bold;
+     ">
+    <i class="fab fa-instagram" style="font-size: 24px;"></i>
+  </a>
   
+  <!-- Facebook -->
+  <a href="https://www.facebook.com/DeliveryTNM" 
+     target="_blank"
+     style="
+       color: #1877f2;
+       text-decoration: none;
+       display: flex;
+       align-items: center;
+       gap: 5px;
+       font-weight: bold;
+     ">
+    <i class="fab fa-facebook" style="font-size: 24px;"></i>
+  </a>
+</div>
+  <!------------------------------------------------------------------------------------------------->
+   <!-- Adicione este código no cabeçalho, depois do botão do carrinho -->
+<button id="btnUserLogin" style="
+    background: rgba(255,255,255,0.12);
+    color: #0c0c0c;
+    padding: 4px 8px; /* Reduzido de 6px 10px */
+    border-radius: 6px;
+    border: 0;
+    cursor: pointer;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 4px; /* Reduzido de 6px */
+    font-size: 12px; /* Adicionado para texto menor */
+">
+    <i class="fas fa-user" style="font-size: 12px;"></i> <!-- Reduzido de 14px -->
+    <span id="userLoginText">Entrar</span>
+</button>
+
   <!------------------------------------------------------------------------------------------------->
 
   <!-- CAMPO DE PESQUISA -->
@@ -1922,24 +1947,7 @@ div[style*="CONFIGURAR TAXAS POR BAIRRO"] input {
     </button>
   </div>
   
-  <!-- Adicione este código no cabeçalho, depois do botão do carrinho -->
-<button id="btnUserLogin" style="
-    background: rgba(255,255,255,0.12);
-    color: #0c0c0c;
-    padding: 4px 8px; /* Reduzido de 6px 10px */
-    border-radius: 6px;
-    border: 0;
-    cursor: pointer;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 4px; /* Reduzido de 6px */
-    font-size: 12px; /* Adicionado para texto menor */
-">
-    <i class="fas fa-user" style="font-size: 12px;"></i> <!-- Reduzido de 14px -->
-    <span id="userLoginText">Entrar</span>
-</button>
-
+ 
 </header>
 <!----------------------------------------------------------------------------------------------------->
 

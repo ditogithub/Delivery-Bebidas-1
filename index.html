@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -153,22 +154,32 @@
     
     // 5. FUNÇÃO saveCart GLOBAL - GARANTINDO QUE SALVA NA CHAVE CORRETA
     window.saveCart = function() {
-        try {
-            const dados = JSON.stringify(window.cart || []);
-            localStorage.setItem(CHAVE_CART, dados);
-            console.log(`💾 Carrinho salvo em ${CHAVE_CART}:`, window.cart.length, 'itens');
-            
-            // Atualizar contador
-            if (typeof window.updateCartCount === 'function') {
-                window.updateCartCount();
-            }
-            
-            return true;
-        } catch (error) {
-            console.error('❌ Erro ao salvar carrinho:', error);
-            return false;
+    try {
+        // ✅ USAR A CHAVE GLOBAL
+        const chaveCart = window.CHAVE_CART || 'bebida1_cart';
+        const dados = JSON.stringify(window.cart || []);
+        
+        // Salvar na chave principal
+        localStorage.setItem(chaveCart, dados);
+        
+        // Para compatibilidade, salvar também em 'cart'
+        if (chaveCart !== 'cart') {
+            localStorage.setItem('cart', dados);
         }
-    };
+        
+        console.log(`💾 Carrinho salvo em ${chaveCart}:`, window.cart.length, 'itens');
+        
+        // Atualizar contador
+        if (typeof window.updateCartCount === 'function') {
+            window.updateCartCount();
+        }
+        
+        return true;
+    } catch (error) {
+        console.error('❌ Erro ao salvar carrinho:', error);
+        return false;
+    }
+};
     
     // 6. VERIFICAÇÃO FINAL
     setTimeout(() => {
@@ -2159,6 +2170,76 @@ const db = firebase.firestore();
 
 //-----------------------------------------------------------------------------------------------
 // =========================
+// INICIALIZAÇÃO DO CARRINHO - CORRIGIDA
+// =========================
+window.CHAVE_CART = 'bebida1_cart'; // Definir chave globalmente
+
+// Inicializar array do carrinho
+window.cart = [];
+
+// Função para carregar o carrinho da chave correta
+function carregarCarrinhoDaStorage() {
+    try {
+        const chaveCart = window.CHAVE_CART || 'bebida1_cart';
+        const savedCart = localStorage.getItem(chaveCart);
+        
+        if (savedCart) {
+            window.cart = JSON.parse(savedCart);
+            console.log('🛒 Carrinho carregado de ' + chaveCart + ':', window.cart.length, 'itens');
+        } else {
+            // Tentar carregar de outras chaves possíveis
+            const chavesPossiveis = ['bebida1_cart', 'bebida_cart', 'cart'];
+            for (const chave of chavesPossiveis) {
+                const dados = localStorage.getItem(chave);
+                if (dados && dados !== '[]') {
+                    window.cart = JSON.parse(dados);
+                    console.log('🔄 Carrinho migrado de ' + chave + ' para ' + chaveCart);
+                    localStorage.setItem(chaveCart, dados);
+                    break;
+                }
+            }
+        }
+    } catch (error) {
+        console.error('❌ Erro ao carregar carrinho:', error);
+        window.cart = [];
+    }
+}
+
+// Chamar a função quando a página carregar
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(carregarCarrinhoDaStorage, 100);
+});
+
+// Função para forçar sincronização do carrinho
+function sincronizarCarrinho() {
+    const chaveCart = window.CHAVE_CART || 'bebida1_cart';
+    
+    // Verificar se window.cart existe
+    if (!window.cart) {
+        window.cart = [];
+    }
+    
+    // Garantir que está salvo na chave principal
+    if (window.cart.length > 0) {
+        const dados = JSON.stringify(window.cart);
+        localStorage.setItem(chaveCart, dados);
+        
+        // Sincronizar com outras chaves para compatibilidade
+        localStorage.setItem('cart', dados);
+        
+        console.log('🔄 Carrinho sincronizado em ' + chaveCart);
+    }
+    
+    // Atualizar contador
+    if (typeof window.updateCartCount === 'function') {
+        window.updateCartCount();
+    }
+}
+
+// Executar sincronização periodicamente
+setInterval(sincronizarCarrinho, 5000);
+//-----------------------------------------------------------------------------------------------
+// =========================
 // CONFIGURAÇÃO DO FIREBASE AUTH COM GOOGLE
 // =========================
 const googleProvider = new firebase.auth.GoogleAuthProvider();
@@ -2223,7 +2304,7 @@ function debugCarrinho() {
     console.log('🔍 DEBUG CARRINHO:');
     console.log('1. localStorage keys:', Object.keys(localStorage));
     
-    // ✅ CORREÇÃO: Usar window.CHAVE_CART que foi definida globalmente
+    // ✅ USAR A CHAVE GLOBAL CORRETA
     const chaveCorreta = window.CHAVE_CART || 'bebida1_cart';
     
     console.log('2. Carrinho na chave correta (' + chaveCorreta + '):', localStorage.getItem(chaveCorreta));
@@ -2236,11 +2317,14 @@ function debugCarrinho() {
         const saved = localStorage.getItem(chaveCorreta);
         if (!saved || saved === '[]') {
             console.error('❌ PROBLEMA DETECTADO: Carrinho na memória mas não salvo!');
-            alert('⚠️ Problema detectado: carrinho não está sendo salvo. Corrigindo automaticamente...');
             
-            // ✅ CORREÇÃO: Usar a chave correta para salvar
-            localStorage.setItem(chaveCorreta, JSON.stringify(window.cart));
-            console.log('✅ Carrinho corrigido manualmente em ' + chaveCorreta);
+            // ✅ CORREÇÃO: Forçar salvamento na chave correta
+            try {
+                localStorage.setItem(chaveCorreta, JSON.stringify(window.cart));
+                console.log('✅ Carrinho corrigido manualmente em ' + chaveCorreta);
+            } catch (e) {
+                console.error('❌ Erro ao salvar:', e);
+            }
         } else {
             console.log('✅ Carrinho já está salvo em ' + chaveCorreta);
         }

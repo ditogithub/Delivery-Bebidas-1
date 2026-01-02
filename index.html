@@ -383,7 +383,7 @@ header {
 #btnOpenCart{ background:rgba(255,255,255,0.12); color:#fff; padding:6px 10px; border-radius:6px; border:0; cursor:pointer; font-weight:700; }
 .page { padding:21px; max-width:1400px; margin:0 auto; }
 .layout-coluna{ display:flex; flex-direction:column; gap:14px; align-items:center; }
-.card{ background:var(--card); border-radius:10px; padding-top: 20px; width:103%; max-width:1400px; box-shadow:0 8px 18px rgba(0,0,0,0.04); position:relative; }
+.card{ background:var(--card); border-radius:10px; padding-top: 10px; width:103%; max-width:1400px; box-shadow:0 8px 18px rgba(0,0,0,0.04); position:relative; }
 .products{ display:flex; flex-wrap:wrap; gap:12px; justify-content:center; }
 .product{ width:180px; background:#fafafa; border:1px solid #eee; border-radius:8px; padding:8px; text-align:center; display:flex; flex-direction:column; gap:8px; }
 
@@ -1818,7 +1818,14 @@ div[style*="CONFIGURAR TAXAS POR BAIRRO"] input {
 }
 /*------------------------------------------------------------------------------------------*/
 /* Garantir que o título "Produtos" fique visível */
-
+#catalogCard h4 {
+  position: relative;
+  z-index: 10;
+  margin-top: 10px !important; /* Adicionar margem no topo */
+  padding-top: 5px;
+  background-color: var(--card); /* Mesma cor do fundo do card */
+  border-radius: 10px 10px 0 0;
+}
 
 /*----------------------------------------------------------------------------------------------*/
 
